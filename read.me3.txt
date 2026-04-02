@@ -1,0 +1,34 @@
+Product Explorer & Logger (Part 3)
+
+Overview
+
+This project demonstrates file handling, API usage, and exception handling in Python.
+
+Features
+
+* File read/write operations
+* API data fetching using requests
+* Error handling with try-except
+* Logging errors to a file
+* User input validation
+
+Files Generated
+
+* python_notes.txt
+* error_log.txt
+
+How to Run
+
+python part3_api_files.py
+
+Concepts Used
+
+* File I/O
+* APIs (GET, POST)
+* Exception Handling
+* Logging
+* Input Validation
+
+Author
+
+* Your Name -Tanzeel Shaikh 
