@@ -1,0 +1,27 @@
+Restaurant Order Management System (Part 2)
+
+Overview
+
+This project simulates a restaurant system using Python data structures like lists and dictionaries.
+
+Features
+
+* Menu display and filtering
+* Cart system (add/remove/update items)
+* Inventory tracking with deep copy
+* Sales data analysis
+
+How to Run
+
+python part2_order_system.py
+
+Concepts Used
+
+* Lists & Dictionaries
+* Nested Data Structures
+* Loops & Conditions
+* Deep Copy
+* Data Analysis
+Author
+
+* Your Name-Tanzeel Shaikh 
