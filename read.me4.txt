@@ -1,0 +1,95 @@
+# 📊 Student Performance Analysis & Prediction
+
+## 📌 Project Overview
+
+This project is based on analyzing student data and predicting whether a student will pass or fail using Machine Learning.
+
+It includes:
+
+* Data analysis using pandas
+* Data visualization using matplotlib and seaborn
+* Machine learning model using logistic regression
+
+---
+
+## 📂 Dataset
+
+The dataset contains information about students such as:
+
+* Subject marks (Math, Science, English, History, PE)
+* Attendance percentage
+* Study hours per day
+* Final result (Pass/Fail)
+
+---
+
+## 🔍 Tasks Performed
+
+### ✅ Task 1: Data Exploration
+
+* Loaded dataset using pandas
+* Checked data types and summary statistics
+* Counted pass and fail students
+* Compared subject averages
+* Found top performing student
+
+---
+
+### 📊 Task 2: Data Visualization (Matplotlib)
+
+Created 5 plots:
+
+* Bar chart (average score per subject)
+* Histogram (math score distribution)
+* Scatter plot (study hours vs performance)
+* Box plot (attendance comparison)
+* Line plot (math vs science scores)
+
+---
+
+### 📈 Task 3: Data Visualization (Seaborn)
+
+* Bar plots comparing math and science scores
+* Scatter plot with regression lines
+
+👉 Observation:
+Seaborn was easier for grouped plots and better styling, while matplotlib required more manual work but gives more control.
+
+---
+
+### 🤖 Task 4: Machine Learning
+
+* Used Logistic Regression model
+* Scaled data using StandardScaler
+* Split dataset into train and test
+* Evaluated accuracy
+* Compared predictions with actual values
+
+---
+
+### ⭐ Bonus Task
+
+Predicted result for a new student and checked probability.
+
+---
+
+## 📊 Results
+
+* Model works but accuracy is limited due to small dataset
+* Study hours and attendance seem important factors
+* Higher scores strongly relate to passing
+
+---
+
+## 🛠️ Technologies Used
+
+* Python
+* Pandas
+* Matplotlib
+* Seaborn
+* Scikit-learn
+
+---
+
+
+

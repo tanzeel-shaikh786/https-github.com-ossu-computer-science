@@ -1,0 +1,228 @@
+# -------------------------------
+# PART 4: Student Analysis + ML
+# -------------------------------
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+
+# -------------------------------
+# Task 1 — Data Exploration
+# -------------------------------
+
+# load data
+df = pd.read_csv("students.csv")
+
+print("First 5 rows:\n", df.head(), "\n")
+
+print("Shape:", df.shape)
+print("\nData types:\n", df.dtypes)
+
+print("\nSummary stats:\n", df.describe())
+
+print("\nPass/Fail count:\n", df['passed'].value_counts())
+
+# subject columns
+sub = ['math', 'science', 'english', 'history', 'pe']
+
+# avg scores for pass vs fail
+pass_avg = df[df['passed'] == 1][sub].mean()
+fail_avg = df[df['passed'] == 0][sub].mean()
+
+print("\nAvg scores (Pass students):\n", pass_avg)
+print("\nAvg scores (Fail students):\n", fail_avg)
+
+# highest overall student
+df['temp_avg'] = df[sub].mean(axis=1)
+top_student = df.loc[df['temp_avg'].idxmax()]
+
+print("\nTop student:", top_student['name'], "with avg =", top_student['temp_avg'])
+
+# -------------------------------
+# Task 2 — Matplotlib
+# -------------------------------
+
+# new column
+df['avg_score'] = df[sub].mean(axis=1)
+
+# 1. Bar chart
+plt.figure()
+plt.bar(sub, df[sub].mean())
+plt.title("Average Score per Subject")
+plt.xlabel("Subjects")
+plt.ylabel("Average Score")
+plt.savefig("plot1_bar.png")
+plt.show()
+
+# 2. Histogram
+plt.figure()
+plt.hist(df['math'], bins=5)
+mean_math = df['math'].mean()
+plt.axvline(mean_math, linestyle='dashed', label="Mean")
+plt.title("Math Score Distribution")
+plt.xlabel("Math Score")
+plt.ylabel("Frequency")
+plt.legend()
+plt.savefig("plot2_hist.png")
+plt.show()
+
+# 3. Scatter
+plt.figure()
+
+p = df[df['passed'] == 1]
+f = df[df['passed'] == 0]
+
+plt.scatter(p['study_hours_per_day'], p['avg_score'], label="Pass")
+plt.scatter(f['study_hours_per_day'], f['avg_score'], label="Fail")
+
+plt.xlabel("Study Hours")
+plt.ylabel("Avg Score")
+plt.title("Study vs Performance")
+plt.legend()
+plt.savefig("plot3_scatter.png")
+plt.show()
+
+# 4. Box plot
+pass_att = df[df['passed']==1]['attendance_pct'].tolist()
+fail_att = df[df['passed']==0]['attendance_pct'].tolist()
+
+plt.figure()
+plt.boxplot([pass_att, fail_att], labels=['Pass', 'Fail'])
+plt.title("Attendance Comparison")
+plt.ylabel("Attendance %")
+plt.savefig("plot4_box.png")
+plt.show()
+
+# 5. Line plot
+plt.figure()
+plt.plot(df['name'], df['math'], marker='o', label='Math')
+plt.plot(df['name'], df['science'], marker='x', label='Science')
+
+plt.xticks(rotation=45)
+plt.xlabel("Students")
+plt.ylabel("Score")
+plt.title("Math vs Science Scores")
+plt.legend()
+plt.savefig("plot5_line.png")
+plt.show()
+
+# -------------------------------
+# Task 3 — Seaborn
+# -------------------------------
+
+plt.figure(figsize=(10,4))
+
+# subplot 1
+ax1 = plt.subplot(1,2,1)
+sns.barplot(data=df, x='passed', y='math', ax=ax1)
+ax1.set_title("Math vs Pass/Fail")
+
+# subplot 2
+ax2 = plt.subplot(1,2,2)
+sns.barplot(data=df, x='passed', y='science', ax=ax2)
+ax2.set_title("Science vs Pass/Fail")
+
+plt.savefig("plot6_seaborn_bar.png")
+plt.show()
+
+# scatter with regression
+plt.figure()
+
+sns.scatterplot(data=df, x='attendance_pct', y='avg_score', hue='passed')
+
+sns.regplot(data=df[df['passed']==1], x='attendance_pct', y='avg_score', scatter=False, label='Pass')
+sns.regplot(data=df[df['passed']==0], x='attendance_pct', y='avg_score', scatter=False, label='Fail')
+
+plt.title("Attendance vs Performance")
+plt.legend()
+plt.savefig("plot7_seaborn_scatter.png")
+plt.show()
+
+# NOTE (simple human comment):
+# seaborn was easier for grouped plots and styling,
+# matplotlib needed more manual work but gives more control
+
+# -------------------------------
+# Task 4 — Machine Learning
+# -------------------------------
+
+# features and target
+X = df[['math','science','english','history','pe','attendance_pct','study_hours_per_day']]
+y = df['passed']
+
+# split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# scaling
+scaler = StandardScaler()
+X_train_s = scaler.fit_transform(X_train)
+X_test_s = scaler.transform(X_test)
+
+# model
+model = LogisticRegression()
+model.fit(X_train_s, y_train)
+
+print("\nTraining accuracy:", model.score(X_train_s, y_train))
+
+# predictions
+y_pred = model.predict(X_test_s)
+
+print("Test accuracy:", model.score(X_test_s, y_test))
+
+# compare results
+names = df.loc[X_test.index, 'name']
+
+print("\nPredictions:")
+for i in range(len(names)):
+    actual = y_test.iloc[i]
+    pred = y_pred[i]
+    result = "✅" if actual == pred else "❌"
+    
+    print(names.iloc[i], "-> Actual:", actual, "| Pred:", pred, result)
+
+# -------------------------------
+# Feature Importance
+# -------------------------------
+
+coef = model.coef_[0]
+features = X.columns
+
+imp = list(zip(features, coef))
+imp_sorted = sorted(imp, key=lambda x: abs(x[1]), reverse=True)
+
+print("\nFeature importance:")
+for f, v in imp_sorted:
+    print(f, ":", v)
+
+# plot
+vals = [x[1] for x in imp_sorted]
+names = [x[0] for x in imp_sorted]
+
+colors = ['green' if v > 0 else 'red' for v in vals]
+
+plt.figure()
+plt.barh(names, vals, color=colors)
+plt.title("Feature Importance")
+plt.xlabel("Coefficient Value")
+plt.ylabel("Features")
+plt.savefig("plot8_feature_importance.png")
+plt.show()
+
+# -------------------------------
+# Bonus — New Student Prediction
+# -------------------------------
+
+new_student = [[75, 70, 68, 65, 80, 82, 3.2]]
+
+new_scaled = scaler.transform(new_student)
+
+pred = model.predict(new_scaled)[0]
+prob = model.predict_proba(new_scaled)[0]
+
+print("\nNew student prediction:")
+print("Result:", "Pass" if pred==1 else "Fail")
+print("Probability:", prob)
