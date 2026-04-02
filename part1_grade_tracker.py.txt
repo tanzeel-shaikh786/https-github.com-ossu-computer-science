@@ -1,0 +1,246 @@
+# ============================================
+# Student Grade Tracker (All-in-One Program)
+# ============================================
+
+print("Welcome to Student Grade Tracker")
+print("--------------------------------")
+
+# -------------------------------
+# Task 1: Data Cleaning Function
+# -------------------------------
+
+def task1():
+    print("\n--- Task 1: Data Cleaning ---\n")
+
+    raw_students = [
+        {"name": "  ayesha SHARMA  ", "roll": "101", "marks_str": "88, 72, 95, 60, 78"},
+        {"name": "ROHIT verma",       "roll": "102", "marks_str": "55, 68, 49, 72, 61"},
+        {"name": "  Priya Nair  ",    "roll": "103", "marks_str": "91, 85, 88, 94, 79"},
+        {"name": "karan MEHTA",       "roll": "104", "marks_str": "40, 55, 38, 62, 50"},
+        {"name": " Sneha pillai ",    "roll": "105", "marks_str": "75, 80, 70, 68, 85"},
+    ]
+
+    cleaned_list = []
+
+    for s in raw_students:
+        # cleaning name
+        nm = s["name"].strip().title()
+
+        # converting roll number
+        rl = int(s["roll"])
+
+        # converting marks into list
+        mks = []
+        for x in s["marks_str"].split(", "):
+            mks.append(int(x))
+
+        # checking name validity
+        valid_flag = True
+        for w in nm.split():
+            if not w.isalpha():
+                valid_flag = False
+
+        if valid_flag:
+            print("✓ Valid:", nm)
+        else:
+            print("✗ Invalid:", nm)
+
+        # printing student card
+        print("-"*30)
+        print("Name:", nm)
+        print("Roll:", rl)
+        print("Marks:", mks)
+        print("-"*30)
+
+        cleaned_list.append({"name": nm, "roll": rl, "marks": mks})
+
+    # special case
+    for s in cleaned_list:
+        if s["roll"] == 103:
+            print("\nSpecial Output")
+            print(s["name"].upper())
+            print(s["name"].lower())
+
+
+# -------------------------------
+# Task 2: Marks Analysis
+# -------------------------------
+
+def task2():
+    print("\n--- Task 2: Marks Analysis ---\n")
+
+    subjects = ["Math", "Physics", "CS", "English", "Chemistry"]
+    mks = [88, 72, 95, 60, 78]
+
+    # printing grades
+    for i in range(len(subjects)):
+        score = mks[i]
+
+        if score >= 90:
+            grd = "A+"
+        elif score >= 80:
+            grd = "A"
+        elif score >= 70:
+            grd = "B"
+        elif score >= 60:
+            grd = "C"
+        else:
+            grd = "F"
+
+        print(subjects[i], "->", score, "|", grd)
+
+    # calculations
+    total = sum(mks)
+    avg = round(total / len(mks), 2)
+
+    print("\nTotal:", total)
+    print("Average:", avg)
+
+    print("Highest:", subjects[mks.index(max(mks))], max(mks))
+    print("Lowest:", subjects[mks.index(min(mks))], min(mks))
+
+    # adding new subjects
+    count = 0
+
+    while True:
+        sub = input("\nEnter subject (done to stop): ")
+
+        if sub.lower() == "done":
+            break
+
+        val = input("Enter marks: ")
+
+        if not val.isdigit():
+            print("Invalid input")
+            continue
+
+        num = int(val)
+
+        if num < 0 or num > 100:
+            print("Marks must be 0-100")
+            continue
+
+        subjects.append(sub)
+        mks.append(num)
+        count += 1
+
+    new_avg = round(sum(mks) / len(mks), 2)
+
+    print("\nAdded subjects:", count)
+    print("New average:", new_avg)
+
+
+# -------------------------------
+# Task 3: Class Summary
+# -------------------------------
+
+def task3():
+    print("\n--- Task 3: Class Summary ---\n")
+
+    class_data = [
+        ("Ayesha Sharma",  [88, 72, 95, 60, 78]),
+        ("Rohit Verma",    [55, 68, 49, 72, 61]),
+        ("Priya Nair",     [91, 85, 88, 94, 79]),
+        ("Karan Mehta",    [40, 55, 38, 62, 50]),
+        ("Sneha Pillai",   [75, 80, 70, 68, 85]),
+    ]
+
+    p = 0
+    f = 0
+    avg_list = []
+
+    top_name = ""
+    top_avg = 0
+
+    print("Name | Avg | Status")
+    print("-----------------------")
+
+    for nm, mks in class_data:
+        avg = round(sum(mks)/len(mks), 2)
+        avg_list.append(avg)
+
+        if avg >= 60:
+            status = "Pass"
+            p += 1
+        else:
+            status = "Fail"
+            f += 1
+
+        if avg > top_avg:
+            top_avg = avg
+            top_name = nm
+
+        print(nm, "|", avg, "|", status)
+
+    class_avg = round(sum(avg_list)/len(avg_list), 2)
+
+    print("\nPass:", p)
+    print("Fail:", f)
+    print("Topper:", top_name, top_avg)
+    print("Class Avg:", class_avg)
+
+
+# -------------------------------
+# Task 4: String Operations
+# -------------------------------
+
+def task4():
+    print("\n--- Task 4: String Operations ---\n")
+
+    essay = "  python is a versatile language. it supports object oriented, functional, and procedural programming. python is widely used in data science and machine learning.  "
+
+    # cleaning text
+    clean_essay = essay.strip()
+    print("Clean:", clean_essay)
+
+    # title case
+    print("\nTitle:", clean_essay.title())
+
+    # count python
+    print("\nCount:", clean_essay.count("python"))
+
+    # replace
+    new_text = clean_essay.replace("python", "Python 🐍")
+    print("\nReplaced:", new_text)
+
+    # split sentences
+    sent_list = clean_essay.split(". ")
+    print("\nList:", sent_list)
+
+    # print properly
+    print("\nFormatted:")
+    i = 1
+    for s in sent_list:
+        if not s.endswith("."):
+            s += "."
+        print(i, "-", s)
+        i += 1
+
+
+# -------------------------------
+# MENU SYSTEM
+# -------------------------------
+
+while True:
+    print("\nSelect Option")
+    print("1 -> Task 1 (Cleaning)")
+    print("2 -> Task 2 (Marks)")
+    print("3 -> Task 3 (Class)")
+    print("4 -> Task 4 (String)")
+    print("5 -> Exit")
+
+    ch = input("Enter choice: ")
+
+    if ch == "1":
+        task1()
+    elif ch == "2":
+        task2()
+    elif ch == "3":
+        task3()
+    elif ch == "4":
+        task4()
+    elif ch == "5":
+        print("Exiting program...")
+        break
+    else:
+        print("Invalid choice, try again")
