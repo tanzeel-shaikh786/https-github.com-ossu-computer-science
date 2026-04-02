@@ -1,34 +1,71 @@
-Product Explorer & Logger (Part 3)
+# Python Assignment – Part 3
 
-Overview
+## File I/O, APIs & Exception Handling
 
-This project demonstrates file handling, API usage, and exception handling in Python.
+### 📌 Overview
 
-Features
+This project demonstrates basic Python concepts including file handling, working with APIs, exception handling, and logging errors.
 
-* File read/write operations
-* API data fetching using requests
-* Error handling with try-except
-* Logging errors to a file
-* User input validation
+---
 
-Files Generated
+## 📂 Project Files
 
-* python_notes.txt
-* error_log.txt
+* `part3_api_files.py` → Main Python script
+* `python_notes.txt` → File created during execution
+* `error_log.txt` → Stores error logs
 
-How to Run
+---
 
-python part3_api_files.py
+## ✅ Features Implemented
 
-Concepts Used
+### 1. File Handling
 
-* File I/O
-* APIs (GET, POST)
-* Exception Handling
-* Logging
-* Input Validation
+* Created a file and wrote multiple lines
+* Appended additional data
+* Read file content with numbering
+* Searched content using keyword
 
-Author
+### 2. API Integration
 
-*  Name -Tanzeel Shaikh 
+* Fetched product data from DummyJSON API
+* Displayed product list
+* Filtered high-rated products
+* Sorted products by price
+* Retrieved category-based products (laptops)
+* Sent POST request to create a product
+
+### 3. Exception Handling
+
+* Handled division errors (zero division, type error)
+* Safe file reading with error handling
+* Managed API errors (connection, timeout, etc.)
+* Input validation for product lookup
+
+### 4. Logging System
+
+* Logged errors with timestamp
+* Stored logs in `error_log.txt`
+* Handled both connection errors and HTTP errors
+
+---
+
+## ▶️ How to Run
+
+1. Install required library:
+   pip install requests
+
+2. Run the script:
+   python part3_api_files.py
+
+---
+
+## ⚠️ Notes
+
+* The API used is a mock API (DummyJSON), so POST requests do not store real data.
+* Error logs are appended each time the program runs.
+
+---
+
+## 📎 Author
+
+* Name-Tanzeel Shaikh  
